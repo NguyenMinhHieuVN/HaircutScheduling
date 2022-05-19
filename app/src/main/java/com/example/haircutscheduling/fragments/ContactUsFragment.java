@@ -14,7 +14,11 @@ import androidx.fragment.app.Fragment;
 import com.example.haircutscheduling.R;
 import com.example.haircutscheduling.activities.MainActivity;
 
-
+/**
+ * A simple {@link Fragment} subclass.
+ * Use the {@link ContactUsFragment#newInstance} factory method to
+ * create an instance of this fragment.
+ */
 public class ContactUsFragment extends Fragment {
 
     MainActivity mainActivity;
@@ -23,6 +27,12 @@ public class ContactUsFragment extends Fragment {
         // Required empty public constructor
     }
 
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     *
+     * @return A new instance of fragment EditAdminContactDetailsFragment.
+     */
     public static ContactUsFragment newInstance() {
         ContactUsFragment fragment = new ContactUsFragment();
         return fragment;
@@ -41,12 +51,12 @@ public class ContactUsFragment extends Fragment {
 
         mainActivity = (MainActivity) getActivity();
         SharedPreferences contact_prefs = mainActivity.getSharedPreferences(MainActivity.SHARED_PREFS_CONTACT, MODE_PRIVATE);
-        //cho phép bạn lưu lại các các thông số bạn đã thiết lập trước đó
+        //cho phep ban lua lai cac thong so ban da thiet lap truoc do
         String phone = contact_prefs.getString(MainActivity.PHONE, "89777402002");
         String email = contact_prefs.getString(MainActivity.EMAIL, "hieuminh735@gmail.com");
         String address = contact_prefs.getString(MainActivity.ADDRESS, "Ha Noi, Viet Nam");
 
-        // hiển thị một văn bản
+        //hien thi mot van ban
         TextView contactPhone = view.findViewById(R.id.editTextContactPhone);
         contactPhone.setText(phone);
 

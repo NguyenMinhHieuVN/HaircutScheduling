@@ -8,30 +8,35 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.example.haircutscheduling.R;
 import com.example.haircutscheduling.activities.MainActivity;
 import com.example.haircutscheduling.classes.User;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-
+/**
+ * A simple {@link Fragment} subclass.
+ * Use the {@link SigninFragment#newInstance} factory method to
+ * create an instance of this fragment.
+ */
 public class SigninFragment extends Fragment {
 
-    private FirebaseAuth mAuth;//chức năng xác thực người dùng
-    public FirebaseDatabase database;//cơ sở dữ liệu được cung cấp bởi Google và  được lưu trữ trên nền tảng cloud
+    private FirebaseAuth mAuth;//chuc nang xac thuc nguoi dung
+    public FirebaseDatabase database;//co so du lieu duoc cung cap boi Google va duoc luu tru tren nen tang cloud
     MainActivity mainActivity;
 
     public SigninFragment() {
         // Required empty public constructor
     }
-
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     *
+     * @return A new instance of fragment SigninFragment.
+     */
     public static SigninFragment newInstance() {
         SigninFragment fragment = new SigninFragment();
         return fragment;
@@ -40,7 +45,7 @@ public class SigninFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mAuth = FirebaseAuth.getInstance();//chỉ cho phép một thread chạy một phương thức tại cùng một thời điểm
+        mAuth = FirebaseAuth.getInstance();//chi cho phep mot thread chay mot phuong thuc tai cung mot thoi diem
         database = FirebaseDatabase.getInstance();
     }
 
@@ -62,7 +67,7 @@ public class SigninFragment extends Fragment {
             String email = emailTextView.getText().toString();
             String password = passwordTextView.getText().toString();
             String phone = phoneTextView.getText().toString();
-            //getText trả về Editable, nên muốn ra chuỗi “thuần” thì phải thêm bước toString
+            //get tra ve Editable, nen muon ra chuoi thuan thi phai them buoc toString
 
             mainActivity = (MainActivity) getActivity();
 
@@ -70,8 +75,7 @@ public class SigninFragment extends Fragment {
             {
                 Toast.makeText(mainActivity, "\n" +
                         "Please fill in all required information", Toast.LENGTH_LONG).show();
-                //một thông báo nhỏ mà ứng dụng gửi tới người dùng, nó xuất hiện gần phía cuối màn hình một khoảng thời gian dài 3,5 s
-            }
+            }   // mot thong bao nho ma ung dung gui toi nguoi dung, no xuat hien gan phia cuoi man hinh mot khoang thoi gian dai 3,5s
             else {
                 User user = new User(name, email, password, phone);
                 Register(user);
@@ -87,8 +91,8 @@ public class SigninFragment extends Fragment {
         mAuth.createUserWithEmailAndPassword(userName, password)
                 .addOnCompleteListener(mainActivity, task -> {
                     if (task.isSuccessful()) {
-                        //task là một tập hợp các activity mà người dùng tương tác khi thực hiện một công việc nhất định
-                        //isSuccessful() để tìm ra code trạng thái trong khoảng 200-300 xác định một yêu cầu thành công.
+                        // task la mot tap hop cac activity ma nguoi dung tuong tac khi thuc hien mot cong viec nhat dinh
+                        //isSuccessful() de tim ra code trang thai torng khoang 200-300 xac dinh mot yeu cau thanh cong
                         DatabaseReference myRef = database.getReference("users").child(user.getPhone());
                         myRef.setValue(user);
                         mainActivity.Login(userName, password);
